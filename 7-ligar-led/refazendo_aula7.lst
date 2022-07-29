@@ -1,0 +1,132 @@
+gavrasm Gerd's AVR assembler version 5.1 (C)2021 by DG4FAC
+----------------------------------------------------------
+
+Path:        /home/aluno/
+Source file: refazendo_aula7.asm
+Hex file:    refazendo_aula7.hex
+Eeprom file: refazendo_aula7.eep
+Compiled:    28.07.2022, 16:41:44
+Pass:        2
+
+     1: .device ATmega328p
+     2: .org 0x00
+     3: 
+     4: 000000   C000  RJMP INIT
+     5: 
+     6: INIT:
+     7: 000001   E008  LDI R16, HIGH(RAMEND)
+     8: 000002   BF0E  OUT SPH, R16
+     9: 000003   EF0F  LDI R16, LOW(RAMEND)
+    10: 000004   BF0D  OUT SPL, R16
+    11: 000005   C027  RJMP SUB1
+    12: 
+    13: SR_THIRD_DELAY:
+    14: 000006   9583  INC R24
+    15: 
+    16: 000007   1785  CP R24, R21
+    17: 000008   F7E9  BRNE SR_THIRD_DELAY
+    18: 000009   E080  LDI R24, 0x00
+    19: 00000A   9508  RET
+    20: 
+    21: SR_SECOND_DELAY:
+    22: 00000B   9573  INC R23
+    23: 
+    24: 00000C   940E  CALL SR_THIRD_DELAY
+        00000D   0006
+    25: 
+    26: 00000E   1775  CP R23, R21
+    27: 00000F   F7D9  BRNE SR_SECOND_DELAY
+    28: 000010   E070  LDI R23, 0x00
+    29: 000011   9508  RET
+    30: 
+    31: SR_DELAY:
+    32: 000012   9563  INC R22
+    33: 
+    34: 000013   940E  CALL SR_SECOND_DELAY
+        000014   000B
+    35: 
+    36: 000015   1765  CP R22, R21
+    37: 000016   F7D9  BRNE SR_DELAY
+    38: 000017   E060  LDI R22, 0x00
+    39: 000018   9508  RET
+    40: 
+    41: SR_TOGGLE_LED:
+    42: 000019   B935  OUT PORTB, R19
+    43: 
+    44: 00001A   940E  CALL SR_DELAY
+        00001B   0012
+    45: 00001C   9508  RET
+    46: 
+    47: SR_TURN_ON:
+    48: 00001D   2F32  MOV R19, R18
+    49: 00001E   940E  CALL SR_TOGGLE_LED
+        00001F   0019
+    50: 000020   9508  RET
+    51: 
+    52: SR_TURN_OFF:
+    53: 000021   2F31  MOV R19, R17
+    54: 000022   940E  CALL SR_TOGGLE_LED
+        000023   0019
+    55: 000024   9508  RET
+    56: 
+    57: PISCA_LED:
+    58: 000025   1732  CP R19, R18; VERIFICA SE LIGADO
+    59: 000026   F019  BREQ TO
+    60: 000027   940E  CALL SR_TURN_ON
+        000028   001D
+    61: 000029   CFFB  RJMP PISCA_LED
+    62:           TO:
+    63: 00002A   940E  CALL SR_TURN_OFF
+        00002B   0021
+    64: 00002C   CFF8  RJMP PISCA_LED
+    65: 
+    66: SUB1:
+    67: 00002D   E200  LDI R16, 0x20; pino 5
+    68: 00002E   E010  LDI R17, 0x00; pino 5 desligado
+    69: 00002F   E220  LDI R18, 0x20; pino 5 ligado
+    70: 000030   2F31  MOV R19, R17; seta o primeiro estado
+    71: 
+    72: 000031   EF5F  LDI R21, 0xFF; tempo de delay
+    73: 
+    74:      ; contadores de delay
+    75: 000032   E080  LDI R24, 0x00
+    76: 000033   E070  LDI R23, 0x00
+    77: 000034   E060  LDI R22, 0x00
+    78: 
+    79:      ; configura porta 13 como saída (apenas escrita)
+    80: 000035   B904  OUT DDRB, R16
+    81: 000036   B935  OUT PORTB, R19
+    82: 
+    83: 000037   CFED  RJMP PISCA_LED
+    84: 
+    85: 
+    86: 
+    87: 000038   CFFF  RJMP LOOP
+
+List of symbols:
+Type nDef nUsed             Decimalval           Hexval Name
+  T     1     1                    171               AB ATMEGA328P
+  L     1     2                      1               01 INIT
+  L     1     3                      6               06 SR_THIRD_DELAY
+  L     1     3                     11               0B SR_SECOND_DELAY
+  L     1     3                     18               12 SR_DELAY
+  L     1     2                     25               19 SR_TOGGLE_LED
+  L     1     1                     29               1D SR_TURN_ON
+  L     1     1                     33               21 SR_TURN_OFF
+  L     1     6                     37               25 PISCA_LED
+  L     1     2                     42               2A TO
+  L     1     2                     45               2D SUB1
+  L     1     2                     56               38 LOOP
+  C     1     0                     22               16 NOW_Y
+  C     1     0                      7               07 NOW_M
+  C     1     0                     28               1C NOW_D
+  C     1     0                  44770             AEE2 NOW_I
+   No macros.
+
+Program             :       57 words.
+Constants           :        0 words.
+Total program memory:       57 words.
+Eeprom space        :        0 bytes.
+Data segment        :        0 bytes.
+Compilation completed, no errors.
+Compilation ended 28.07.2022, 16:41:44

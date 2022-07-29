@@ -1,0 +1,11 @@
+/avr_sim_project_file
+/home/aluno/Documentos/aula_7.asm
+mainasm=aula_7.asm
+file=aula_7.lst,69,38,85
+file=aula_7.asm,42,18,83
+clock=1000000
+device-type=ATmega328P
+device-package=28-pin-PDIP
+adc=5.0000,0.0000,0.0000,0.0000,0.0000,0.0000,0.0000
+windows=acepstwz
+alert1=0,0,-1,-1,,0,0

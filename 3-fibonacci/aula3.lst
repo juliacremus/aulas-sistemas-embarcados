@@ -1,0 +1,90 @@
+gavrasm Gerd's AVR assembler version 5.1 (C)2021 by DG4FAC
+----------------------------------------------------------
+
+Path:        /home/aluno/Documentos/
+Source file: aula3.asm
+Hex file:    aula3.hex
+Eeprom file: aula3.eep
+Compiled:    07.07.2022, 16:14:56
+Pass:        2
+
+     1: .device ATmega328p
+     2: .org 0x00
+     3: 
+     4: 000000   C000  RJMP INIT
+     5: 
+     6: INIT:
+     7: 000001   E008  LDI R16, HIGH(RAMEND)
+     8: 000002   BF0E  OUT SPH, R16
+     9: 000003   EF0F  LDI R16, LOW(RAMEND)
+    10: 000004   BF0D  OUT SPL, R16
+    11: 000005   C010  RJMP P1
+    12: 
+    13: VER:
+    14: 000006   E0F1  LDI R31, 0x01
+    15: 000007   E0E0  LDI R30, 0x00
+    16: 000008   172F  CP R18, R31
+    17: 000009   F411  BRNE FIB
+    18: 
+    19: 
+    20: ONE:
+    21: 00000A   E051  LDI R21, 0x01
+    22: 00000B   C018  RJMP LOOP
+    23: 
+    24: FIB:
+    25: 00000C   E040  LDI R20, 0x00; xn
+    26: 00000D   0F40  ADD R20, R16
+    27: 00000E   0F41  ADD R20, R17
+    28: 00000F   2F10  MOV R17, R16; x-2
+    29: 000010   2F04  MOV R16, R20; x-1
+    30: 
+    31: 000011   9533  INC R19
+    32: 000012   1732  CP R19, R18
+    33: 000013   F7C1  BRNE FIB
+    34: 000014   2F50  MOV R21, R16
+    35: 000015   9508  RET
+    36: 
+    37: P1:
+    38: 000016   E001  LDI R16, 0x01; x0
+    39: 000017   E011  LDI R17, 0x01; x1
+    40: 000018   E020  LDI R18, 0x00; n
+    41: 000019   E031  LDI R19, 0x01; i
+    42: 00001A   E0F1  LDI R31, 0x01; IF ELSE
+    43: 00001B   E0E0  LDI R30, 0x00; IF ELSE
+    44: 
+    45: 00001C   172F  CP R18, R31
+    46: 00001D   F411  BRNE IF2
+    47: 00001E   940E  CALL ONE
+        00001F   000A
+    48: 
+    49:      IF2:
+    50: 000020   172E  CP R18, R30
+    51: 000021   F341  BREQ ONE
+    52: 000022   940E  CALL FIB
+        000023   000C
+    53: 
+    54: 000024   CFFF  RJMP LOOP
+
+List of symbols:
+Type nDef nUsed             Decimalval           Hexval Name
+  T     1     1                    171               AB ATMEGA328P
+  L     1     2                      1               01 INIT
+  L     1     0                      6               06 VER
+  L     1     3                     10               0A ONE
+  L     1     5                     12               0C FIB
+  L     1     2                     22               16 P1
+  L     1     2                     32               20 IF2
+  L     1     4                     36               24 LOOP
+  C     1     0                     22               16 NOW_Y
+  C     1     0                      7               07 NOW_M
+  C     1     0                      7               07 NOW_D
+  C     1     0                  44749             AECD NOW_I
+   No macros.
+
+Program             :       37 words.
+Constants           :        0 words.
+Total program memory:       37 words.
+Eeprom space        :        0 bytes.
+Data segment        :        0 bytes.
+Compilation completed, no errors.
+Compilation ended 07.07.2022, 16:14:56
